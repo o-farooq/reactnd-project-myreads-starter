@@ -12,6 +12,7 @@ class BooksApp extends React.Component {
     super();
     this.handleBookMove = this.handleBookMove.bind(this);
     this.updateQuery = this.updateQuery.bind(this);
+    this.clearQuery = this.clearQuery.bind(this);
   }
 
 
@@ -114,7 +115,7 @@ class BooksApp extends React.Component {
               </div>
             </div>
             <div className="open-search">
-              <Link to='/search' className="open-search">Add a book</Link>
+              <Link to='/search' className="open-search" onClick={this.clearQuery}>Add a book</Link>
             </div>
           </div>
         )} />
