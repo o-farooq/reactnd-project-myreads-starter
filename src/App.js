@@ -7,7 +7,7 @@ import BookShelf from './BookShelf'
 
 class BooksApp extends React.Component {
 
-  constructor(){
+  constructor() {
     super();
     this.handleBookMove = this.handleBookMove.bind(this);
   }
@@ -25,7 +25,28 @@ class BooksApp extends React.Component {
    * @param {shelf} shelf where book is moved 
    */
   handleBookMove(book, shelf) {
+    const { booksInShelf, searchResults } = this.state
+    // create copy of state and not mutate the state
+    let booksInShelfLocal = booksInShelf.slice();
 
+    BooksAPI.update(book, shelf).then((result) => {
+      if (result.error)
+        return;
+      let bookInSearchResults = searchResults.filter(sbook => sbook.id === book.id)[0]
+      if (bookInSearchResults) {
+        bookInSearchResults.shelf = shelf;
+      }
+
+      let bookInShelf = booksInShelfLocal.filter(sbook => sbook.id === book.id)[0]
+      if (!bookInShelf) {
+        book.shelf = shelf;
+        booksInShelfLocal.push(book);
+      } else {
+        bookInShelf.shelf = shelf;
+      }
+
+      this.setState({ booksInShelf: booksInShelfLocal, searchResults: searchResults });
+    })
   }
 
   componentDidMount() {
