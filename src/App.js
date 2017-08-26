@@ -68,7 +68,7 @@ class BooksApp extends React.Component {
     this.setState({ query: query })
     if (query) {
       BooksAPI.search(query).then((books) => {
-        !books.error && books.map(book => {
+        !books.error && books.forEach(book => {
           book.shelf = "none"
           let existingBook = booksInShelfLocal && booksInShelfLocal.filter(bookInShelf => bookInShelf.id === book.id)[0];
           if (existingBook) {
